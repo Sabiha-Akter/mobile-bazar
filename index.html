@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div id="input-group number-spinner">
+                           <button onclick="handelProductChange('mobile',false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="mobileNum" type="text" class="form-control text-center" value="1">
+                           <button onclick="handelProductChange('mobile',true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <h5>$<span id="mobilePrice">1219</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="handelProductChange('cover',false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="coverNum" type="text" class="form-control text-center" value="1">
+                           <button onclick="handelProductChange('cover',true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5>$<span id="coverPrice">59</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5>$<span id="subTotal">1278</span></h5>
+                        <h5 id="taxNum">$0</h5>
+                        <h5>$<span id="total">1278</span></h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button id="checkOut" type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+   <script>
+       function handelProductChange(product,increase){
+          const productNum = document.getElementById(product + 'Num');
+           const productNumber =  parseInt(productNum.value);
+         let newProductNumber = productNumber;
+         if (increase == true){
+            newProductNumber = productNumber + 1;
+         }
+         if ( increase == false && productNumber > 0){
+            newProductNumber = productNumber - 1;
+         }
+          productNum.value = newProductNumber;
+          let realProductPrice = 0;
+          if (product == 'mobile'){
+            realProductPrice = newProductNumber * 1219;
+          }
+          if (product == 'cover'){
+            realProductPrice = newProductNumber * 59;
+          }
+         document.getElementById(product + 'Price').innerText = realProductPrice;
+         calculatTotal();
+      }
+      function getInputValu(product){
+         const productNum = document.getElementById(product + 'Num');
+          const productNumber =  parseInt(productNum.value);
+          return productNumber;
+      }
+      function calculatTotal(){
+         const mobileNumber = getInputValu('mobile');
+         const coverNumber = getInputValu('cover');
+         //  const mobileNum = document.getElementById('mobileNum');
+         //  const mobileNumber = parseInt(mobileNum.value);
+
+         //  const coverNum = document.getElementById('coverNum');
+         //  const coverNumber = parseInt(coverNum.value);
+
+          const subTotal = mobileNumber * 1219 + coverNumber * 59;
+          document.getElementById('subTotal').innerText = subTotal;
+          let tax =Math.round(subTotal/10);
+          document.getElementById('taxNum').innerText = '$' + tax;
+          const grossTotal = subTotal + tax;
+          document.getElementById('total').innerText = grossTotal;
+      }
+     
+      // function handelProductChange(increase){
+      //    const mobileNum = document.getElementById('mobileNum');
+      //    const mobileNumber = parseInt(mobileNum.value);
+      //      let newMobileNumber = mobileNumber;
+      //    if(increase == true){
+      //        newMobileNumber = mobileNumber +1;
+      //    }
+      //    else{
+      //       newMobileNumber = mobileNumber - 1;
+      //    }
+      //     mobileNum.value = newMobileNumber;
+      //    const realMobilePrice = newMobileNumber * 1219;
+      //    document.getElementById('mobilePrice').innerText = realMobilePrice;
+      // }
+      // function handelCoverChange(increase){
+      //    const coverNum = document.getElementById('coverNum');
+      //     const coverNumber =  parseInt(coverNum.value);
+      //    let newCoverNumber = coverNumber;
+      //    if (increase == true){
+      //       newCoverNumber = coverNumber + 1;
+      //    }
+      //    if ( increase == false && coverNumber > 0){
+      //       newCoverNumber = coverNumber - 1;
+      //    }
+      //     coverNum.value = newCoverNumber;
+      //    const realCoverPrice = newCoverNumber * 59;
+      //    document.getElementById('coverPrice').innerText = realCoverPrice;
+
+      // }
+
+       // //plus btn even handler.
+      // const plusBtn = document.getElementById('plusBtn');
+      // plusBtn.addEventListener('click', function(){
+      //    //  const mobileNum = document.getElementById('mobileNum');
+      //    //  const mobileNumber = parseInt(mobileNum.value) +1;
+      //    //  mobileNum.value = mobileNumber;
+       
+      //    // const realMobilePrice = mobileNumber * 1219;
+      //    // document.getElementById('mobilePrice').innerText = realMobilePrice;
+      // });
+
+      // //minus btn even handler.
+      // const minusBtn = document.getElementById('minusBtn');
+      // minusBtn.addEventListener('click', function(){
+      //    //  const mobileNum = document.getElementById('mobileNum');
+      //    //  const mobileNumber = parseInt(mobileNum.value) - 1;
+      //    //  mobileNum.value = mobileNumber;
+
+      //    // const realMobilePrice =mobileNumber *  1219;
+      //    // document.getElementById('mobilePrice').innerText = realMobilePrice;
+      // });
+
+
+     
+   </script>
+</body>
+
+</html>
